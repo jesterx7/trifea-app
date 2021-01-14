@@ -1,0 +1,42 @@
+<!-- Contact -->
+<div id="contact" class="form">|
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2>TICKET</h2>
+				<div class="hr-div"></div>
+			</div>
+		</div>
+		<div class="ticket-section">
+			<div class="label-section"><u style="color: #ffffff;"><h5>Track</h5></u></div>
+			<h6>{{ ticket.track }}</h6>
+		</div>
+		<div class="ticket-section">
+			<div class="label-section"><u style="color: #ffffff;"><h5>Quantitiy</h5></u></div>
+			<h6>{{ ticket.quantitiy }}</h6>
+		</div>
+		<div class="ticket-section">
+			<div class="label-section"><u style="color: #ffffff;"><h5>Bus Type</h5></u></div>
+			<h6 class="have-price">{{ ticket.bus_type }}</h6>
+			<h6 class="price-ticket">{{ ticket.bus_fee | currency:"Rp " }}</h6>
+		</div>
+		<div class="ticket-section">
+			<div class="label-section"><u style="color: #ffffff;"><h5>Trip</h5></u></div>
+			<h6 class="have-price">{{ ticket.trip }}</h6>
+			<h6 class="price-ticket">{{ ticket.trip_fee | currency:"Rp " }}</h6>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="hr-div"></div>
+			</div>
+		</div>
+		<div class="ticket-section">
+			<h6 class="have-price">Total</h6>
+			<h6 class="price-ticket">{{ (ticket.quantitiy * (ticket.bus_fee + ticket.trip_fee)) | currency:"Rp " }}</h6>
+		</div>
+		<div class="btn-ticket">
+			<button class="btn btn-danger" style="display: inline;" (click)="backClicked()">Cancel</button>
+			<button class="btn btn-success" (click)="onConfirmTicket()">Confirm</button>
+		</div>
+	</div>
+</div>

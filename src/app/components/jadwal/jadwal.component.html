@@ -1,0 +1,52 @@
+<!-- Contact -->
+<div id="signin" class="form">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>SCHEDULES</h2>
+            </div>
+        </div>
+        <div class="row">
+        	<div class="col-lg-12">
+        		<div class="table">
+					<div class="table-row row header">
+						<div class="cell">
+							Start
+						</div>
+						<div class="cell">
+							End
+						</div>
+						<div class="cell">
+							Driver
+						</div>
+						<div class="cell">
+							Conductor
+						</div>
+						<div class="cell">
+							Track
+						</div>
+					</div>
+					<div class="table-row row" *ngFor="let schedule of schedule_list">
+						<div class="cell data-cell" >
+							{{ schedule.schedule_start }}
+						</div>
+						<div class="cell data-cell" >
+							{{ schedule.schedule_end }}
+						</div>
+						<div class="cell data-cell" >
+							{{ schedule.driver_name }}
+						</div>
+						<div class="cell data-cell" >
+							{{ schedule.conductor_name }}
+						</div>
+						<div class="cell data-cell" >
+							{{ schedule.track_name }}
+						</div>
+					</div>
+				</div>
+                <!-- end of contact form -->
+            </div> <!-- end of col -->
+        </div> <!-- end of table-row row -->
+    </div> <!-- end of container -->
+</div> <!-- end of form -->
+<!-- end of contact -->

@@ -1,0 +1,47 @@
+<!-- Contact -->
+<div id="contact" class="form">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Profile</h2>
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                
+                <!-- Contact Form -->
+                <form #userForm="ngForm" (ngSubmit)="onUpdateForm(userForm.value)" id="contactForm" data-toggle="validator" data-focus="false">
+                    <div class="form-group">
+                        <label class="input-label" for="cname">Name</label>
+                        <input type="text" class="form-control-input" id="cname" placeholder="Name" name="name" ngModel="{{ name }}" required readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label" for="cemail">Email</label>
+                        <input type="email" class="form-control-input" id="cemail" placeholder="Email" ngModel="{{ email }}" required name="email" readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label" for="cemail">Address</label>
+                        <input type="text" class="form-control-input" placeholder="Address" ngModel="{{ address }}" name="address" required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label" for="cemail">Phone Number</label>
+                        <input type="text" class="form-control-input" placeholder="Phone Number" ngModel="{{ phone }}" name="phone_number" required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="form-control-submit-button">Update</button>
+                    </div>
+                    <div class="form-message">
+                        <div id="cmsgSubmit" class="h3 text-center hidden"></div>
+                    </div>
+                </form>
+                <!-- end of contact form -->
+
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div> <!-- end of form -->
+<!-- end of contact -->

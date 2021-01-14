@@ -1,0 +1,101 @@
+<!-- Header -->
+<header id="header" class="header">
+    <div class="header-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="text-container">
+                        <div class="alert alert-success" role="alert" [hidden]="!alertVisible">
+                          Payment Success
+                        </div>
+                        <form #ticketForm="ngForm" (ngSubmit)="onCheckOutSubmit(ticketForm.value)">
+                        	<h2>Bus App</h2>
+                            <p [hidden]="!error" style="color: red;">{{ error_message }}</p>
+                        	<div class="select-box">
+                        		<label for="select-box-1" class="label select-box"><span class="label-desc">Choose your origin</span></label>
+                        		<select id="select-box-1" class="select" ngModel name="origin" (change)="onOriginSelected($event.target.value)">
+                        			<option>Choose your origin</option>
+                        			<option *ngFor="let city of city_list" [value]="city['city_id']">{{ city['city_name'] }}</option>
+                        		</select>
+                        	</div>
+                        	<div class="select-box" [hidden]="!origin_selected">
+                        		<label for="select-box-2" class="label select-box"><span class="label-desc">Choose your destination</span></label>
+                        		<select id="select-box-2" class="select" ngModel name="destination" (change)="onDestinationSelected($event.target.value)">
+                        			<option>Choose your destination</option>
+                        			<option *ngFor="let city of city_list" [value]="city['city_id']">{{ city['city_name'] }}</option>
+                        		</select>
+                        	</div>
+                            <div class="select-box" [hidden]="!destination_selected">
+                                <label for="select-box-3" class="label select-box"><span class="label-desc">Choose Track</span></label>
+                                <select id="select-box-3" class="select" ngModel name="track" (change)="onTrackSelected($event.target.value)">
+                                    <option>Choose Track</option>
+                                    <option *ngFor="let track of track_list" [value]="track['track_id']">{{ track['track_name'] }}</option>
+                                </select>
+                            </div>
+                            <div class="select-box" [hidden]="!track_selected">
+                                <label for="select-box-4" class="label select-box"><span class="label-desc">Choose Trip</span></label>
+                                <select id="select-box-4" class="select" ngModel name="trip">
+                                    <option>Choose Trip</option>
+                                    <option *ngFor="let trip of trip_list" [value]="trip['trip_id']">{{ trip['city_name'] }}</option>
+                                </select>
+                            </div>
+                            <div class="select-box">
+                                <input class="label select-box" type="number" ngModel name="quantitiy" placeholder="Quantitiy" required>
+                            </div>
+                            <div class="select-box">
+                                <input class="label select-box" type="text" [(ngModel)]="user_id" name="user_id" placeholder="User ID" type="hidden" required>
+                            </div>
+                        	<div class="form-group">
+                        		<button id="search-location" type="submit" class="form-control-submit-button">Check Out</button>
+                        	</div>
+                        </form>
+                    </div>
+                </div> <!-- end of col -->
+                <div class="col-lg-6">
+                    <div class="image-container" [hidden]="check">
+                        <div class="text-container">
+                            <div class="text-container">
+                                <form #checkOrder="ngForm" (ngSubmit)="onCheckSubmit(checkOrder.value)">
+                                    <h2>Check User Order</h2>
+                                    <div class="select-box">
+                                        <label for="select-box-5" class="label select-box"><span class="label-desc">Choose your Schedule</span></label>
+                                        <select id="select-box-5" class="select" ngModel name="schedule">
+                                            <option>Choose your Schedule</option>
+                                            <option *ngFor="let schedule of schedule_list" [value]="schedule['schedule_id']">{{ schedule['track_name'] }} : {{ schedule['schedule_start'] }} s.d {{ schedule['schedule_end'] }}<hr></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="search-location" type="submit" class="form-control-submit-button">CHECK</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> <!-- end of image-container -->
+                    <div class="image-container" [hidden]="!check">
+                        <agm-map id="user-map" [zoom]="zoom" [latitude]="current_lat" [longitude]="current_lng" (mapReady)="mapReady($event)">
+                            <div *ngFor="let loc of pend_user_loc; let i = index; trackBy : identify">
+                                <agm-marker *ngIf="pend_order_list[i]['status'] == 'PEND'" class="driver-marker" [latitude]="loc['loc_latitude']" [longitude]="loc['loc_longitude']" [iconUrl]="pend_user_marker_url">
+                                    <agm-info-window #infoWindow>
+                                        <div>{{ pend_order_list[i]['user_name'] }}</div>
+                                        <div>{{ pend_order_list[i]['user_number'] }}</div>
+                                        <button class="btn btn-danger btn-user" (click)="onDeclineOrder(pend_order_list[i]['order_id'], i, infoWindow)">Decline</button>
+                                        <button class="btn btn-success btn-user" style="display: inline; margin-left: 5px;" (click)="onConfirmOrder(pend_order_list[i]['order_id'], i, infoWindow)">Accept</button>
+                                    </agm-info-window>
+                                </agm-marker>
+                            </div>
+                            <div *ngFor="let loc of acc_user_loc; let i = index; trackBy : identify">
+                                <agm-marker *ngIf="acc_order_list[i]['status']==='ACC'" class="driver-marker" [latitude]="loc['loc_latitude']" [longitude]="loc['loc_longitude']" [iconUrl]="acc_user_marker_url">
+                                    <agm-info-window #infoWindow>
+                                        <div>{{ acc_order_list[i]['user_name'] }}</div>
+                                        <div>{{ acc_order_list[i]['user_number'] }}</div>
+                                    </agm-info-window>
+                                </agm-marker>
+                            </div>
+                        </agm-map>
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of header-content -->
+</header> <!-- end of header -->
+<!-- end of header -->
