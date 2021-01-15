@@ -242,7 +242,6 @@ export class UserHomeComponent implements OnInit {
   }
 
   getUserLoc(user_list, status) {
-    console.log('called loc');
     let params = new HttpParams();
     params = params.append('user_list', user_list.join(','));
 
@@ -271,7 +270,6 @@ export class UserHomeComponent implements OnInit {
   }
 
   checkNewOrder() {
-    console.log('called');
     let params = new HttpParams();
     params = params.append('schedule_id', this.schedule_id.toString());
 
