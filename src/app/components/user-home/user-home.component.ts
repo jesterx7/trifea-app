@@ -128,6 +128,28 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
+  onBoardUser(order_id, user_index, infoWindow) {
+    let params = new HttpParams();
+    params = params.append('order_id', order_id);
+
+    const httpOptions: { headers; observe; } = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }),
+      observe: 'response'
+    };
+
+    this.http.post('https://trifea.000webhostapp.com/api/pickup_user_order', params, httpOptions).subscribe(
+    (resp) => {
+      if(resp['body']['status']) {
+        this.acc_order_list[user_index]['status'] = 'BRD';
+        infoWindow.close();
+      } else {
+        console.log('FAILED');
+      }
+    });
+  }
+
   onDeclineOrder(order_id, user_index, infoWindow) {
     let params = new HttpParams();
     params = params.append('order_id', order_id);
@@ -242,7 +264,6 @@ export class UserHomeComponent implements OnInit {
   }
 
   getUserLoc(user_list, status) {
-    console.log('called loc');
     let params = new HttpParams();
     params = params.append('user_list', user_list.join(','));
 
@@ -271,7 +292,6 @@ export class UserHomeComponent implements OnInit {
   }
 
   checkNewOrder() {
-    console.log('called');
     let params = new HttpParams();
     params = params.append('schedule_id', this.schedule_id.toString());
 

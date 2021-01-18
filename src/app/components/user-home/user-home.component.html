@@ -78,6 +78,7 @@
                                     <agm-info-window #infoWindow>
                                         <div>{{ pend_order_list[i]['user_name'] }}</div>
                                         <div>{{ pend_order_list[i]['user_number'] }}</div>
+                                        <div>Quantity : {{ pend_order_list[i]['quantity'] }}</div>
                                         <button class="btn btn-danger btn-user" (click)="onDeclineOrder(pend_order_list[i]['order_id'], i, infoWindow)">Decline</button>
                                         <button class="btn btn-success btn-user" style="display: inline; margin-left: 5px;" (click)="onConfirmOrder(pend_order_list[i]['order_id'], i, infoWindow)">Accept</button>
                                     </agm-info-window>
@@ -88,6 +89,7 @@
                                     <agm-info-window #infoWindow>
                                         <div>{{ acc_order_list[i]['user_name'] }}</div>
                                         <div>{{ acc_order_list[i]['user_number'] }}</div>
+                                        <button class="btn btn-primary btn-user" (click)="onBoardUser(acc_order_list[i]['order_id'], i, infoWindow)">Pick Up</button>
                                     </agm-info-window>
                                 </agm-marker>
                             </div>
