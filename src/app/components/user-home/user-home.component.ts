@@ -213,6 +213,13 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
+  /*getDestinationDataApi(origin_id) {
+    var params = '?origin_id=' + origin_id.toString() + '&condectur_id=' + this.getCookie('user_id');
+    this.http.get('https://trifea.000webhostapp.com/api/get_destination'+params).toPromise().then(resp => {
+      console.log(resp);
+    });
+  }*/
+
   onOriginSelected(data) {
     this.origin_city_id = data;
     this.origin_selected = true;
