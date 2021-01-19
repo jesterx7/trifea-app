@@ -45,9 +45,9 @@ export class UserHomeComponent implements OnInit {
     }
   }
   city_list: any;
+  track_list: any;
   error = false;
   error_message = '';
-  track_list = [];
   origin_selected = false;
   destination_selected = false;
   origin_city_id = 0;
@@ -192,12 +192,11 @@ export class UserHomeComponent implements OnInit {
     var params = '?origin=' + this.origin_city_id.toString() + '&destination=' + this.destination_city_id.toString();
     this.http.get(url+params).toPromise().then(resp => {
       if (resp['status']) {
-        for (let key in resp['data']) {
-          this.track_list.push(resp['data'][key]);
-        }
+        this.track_list = resp['data'];
         this.destination_selected = true;
         this.error = false;
       } else {
+        this.destination_selected = false;
         this.error = true;
         this.error_message = 'Track Not Found';
       }
