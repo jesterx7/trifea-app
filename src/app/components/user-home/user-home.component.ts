@@ -48,10 +48,8 @@ export class UserHomeComponent implements OnInit {
   error = false;
   error_message = '';
   track_list = [];
-  trip_list = [];
   origin_selected = false;
   destination_selected = false;
-  track_selected = false;
   origin_city_id = 0;
   destination_city_id = 0;
   track_id = 0;
@@ -100,6 +98,9 @@ export class UserHomeComponent implements OnInit {
             checkTicket : ticket
           }
         });
+      } else {
+        this.error = true;
+        this.error_message = 'No Schedule Found';
       }
     });
   }
@@ -203,18 +204,8 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
-  getTripDataApi(url) {
-    var params = '?track=' + this.track_id.toString();
-    this.http.get(url+params).toPromise().then(resp => {
-      for (let key in resp['data']) {
-        this.trip_list.push(resp['data'][key]);
-      }
-      this.track_selected = true;
-    });
-  }
-
   /*getDestinationDataApi(origin_id) {
-    var params = '?origin_id=' + origin_id.toString() + '&condectur_id=' + this.getCookie('user_id');
+    var params = '?origin_id=' + origin_id.toString() + '&condectur_id=' + this.user_id;
     this.http.get('https://trifea.000webhostapp.com/api/get_destination'+params).toPromise().then(resp => {
       console.log(resp);
     });
@@ -228,11 +219,6 @@ export class UserHomeComponent implements OnInit {
   onDestinationSelected(data) {
     this.destination_city_id = data;
     this.getTrackDataApi('https://trifea.000webhostapp.com/api/get_track');
-  }
-
-  onTrackSelected(data) {
-    this.track_id = data;
-    this.getTripDataApi('https://trifea.000webhostapp.com/api/get_trip');
   }
 
   getCurrentLocation() {
@@ -266,6 +252,9 @@ export class UserHomeComponent implements OnInit {
         this.loc_timer.subscribe(val => this.intervalFunction());
         this.order_timer.subscribe(val => this.checkNewOrder());
         this.check = true;
+      } else {
+        this.error = true;
+        this.error_message = 'No Track Found';
       }
     });
   }
@@ -374,7 +363,7 @@ export class UserHomeComponent implements OnInit {
   }
 
   getScheduleDataApi(url) {
-    var params = '?conductor_id=' + this.getCookie('user_id');
+    var params = '?conductor_id=' + this.user_id;
     this.http.get(url+params).toPromise().then(resp => {
       if (resp['status']) {
         this.schedule_list = resp['data'];
@@ -383,8 +372,8 @@ export class UserHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user_id = this.getCookie('user_id');
   	this.getCityDataApi('https://trifea.000webhostapp.com/api/get_city_list');
     this.getScheduleDataApi('https://trifea.000webhostapp.com/api/get_conductor_schedule');
-    this.user_id = this.getCookie('user_id');
   }
 }

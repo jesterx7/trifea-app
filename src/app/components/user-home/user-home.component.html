@@ -27,18 +27,12 @@
                         	</div>
                             <div class="select-box" [hidden]="!destination_selected">
                                 <label for="select-box-3" class="label select-box"><span class="label-desc">Choose Track</span></label>
-                                <select id="select-box-3" class="select" ngModel name="track" (change)="onTrackSelected($event.target.value)">
+                                <select id="select-box-3" class="select" ngModel name="track">
                                     <option>Choose Track</option>
                                     <option *ngFor="let track of track_list" [value]="track['track_id']">{{ track['track_name'] }}</option>
                                 </select>
                             </div>
-                            <div class="select-box" [hidden]="!track_selected">
-                                <label for="select-box-4" class="label select-box"><span class="label-desc">Choose Trip</span></label>
-                                <select id="select-box-4" class="select" ngModel name="trip">
-                                    <option>Choose Trip</option>
-                                    <option *ngFor="let trip of trip_list" [value]="trip['trip_id']">{{ trip['city_name'] }}</option>
-                                </select>
-                            </div>
+                            <input type="number" [ngModel]="user_id" name="user_id"  hidden="true">
                             <div class="select-box">
                                 <input class="label select-box" type="number" ngModel name="quantitiy" placeholder="Quantitiy" required>
                             </div>
