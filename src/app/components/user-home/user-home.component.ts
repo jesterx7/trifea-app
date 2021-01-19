@@ -87,7 +87,7 @@ export class UserHomeComponent implements OnInit {
           track : resp['body']['track'],
           track_id : data['track'],
           trip : resp['body']['trip'],
-          trip_id : data['trip'],
+          trip_id : resp['body']['trip_id'],
           bus_type : resp['body']['type'],
           bus_fee : parseInt(resp['body']['bus_fee']),
           trip_fee : parseInt(resp['body']['trip_fee']),
