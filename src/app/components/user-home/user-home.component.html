@@ -18,7 +18,7 @@
                         			<option *ngFor="let city of city_list" [value]="city['city_id']">{{ city['city_name'] }}</option>
                         		</select>
                         	</div>
-                        	<div class="select-box" [hidden]="!origin_selected">
+                        	<div class="select-box">
                         		<label for="select-box-2" class="label select-box"><span class="label-desc">Choose your destination</span></label>
                         		<select id="select-box-2" class="select" ngModel name="destination" (change)="onDestinationSelected($event.target.value)">
                         			<option>Choose your destination</option>
