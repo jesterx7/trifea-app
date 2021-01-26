@@ -8,6 +8,7 @@
         </div>
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
+                 <p [hidden]="!error" style="color: red;">{{ error_message }}</p>
                 <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm.value)" id="contactForm" data-toggle="validator" data-focus="false">
                     <div class="form-group">
                         <label class="input-label" for="cname">Username</label>

@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 
 export class LoginComponent implements OnInit {
 
+  error = false;
+  error_message = '';
+
   constructor(private http:HttpClient, private router: Router) { }
 
   onLoginSubmit(data) {
@@ -32,7 +35,10 @@ export class LoginComponent implements OnInit {
         this.setCookie('occupation_name', resp['body']['occupation_name'], 1, 'USER_COOKIE');
         this.setCookie('occupation_id', resp['body']['occupation_id'], 1, 'USER_COOKIE');
         window.location.href = '/';
-  		}
+  		}else{
+        this.error = true;
+        this.error_message = 'Wrong Username / Password';
+      }
   	});
   }
   
