@@ -13,6 +13,7 @@ export class UserCheckTicketComponent implements OnInit {
   ticket: Ticket;
   constructor(private router: Router, private http: HttpClient, private loc: Location) { 
   	this.ticket = this.router.getCurrentNavigation().extras.state.checkTicket;
+    console.log(this.ticket);
   }
 
   backClicked() {
@@ -20,7 +21,7 @@ export class UserCheckTicketComponent implements OnInit {
   }
 
   onConfirmTicket() {
-  	var body = 'schedule_id=' + this.ticket.schedule_id + '&trip_id=' + this.ticket.trip_id + '&quantitiy=' + this.ticket.quantitiy.toString();
+  	var body = 'schedule_id=' + this.ticket.schedule_id + '&trip_id=' + this.ticket.trip_id + '&quantity=' + this.ticket.quantity.toString();
 
   	const httpOptions: { headers; observe; } = {
       headers: new HttpHeaders({
