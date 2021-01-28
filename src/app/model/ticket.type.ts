@@ -7,5 +7,5 @@ export interface Ticket {
     bus_type : string;
     bus_fee : number;
     trip_fee : number;
-    quantitiy : number;
+    quantity : number;
 }

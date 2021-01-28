@@ -91,7 +91,7 @@ export class UserHomeComponent implements OnInit {
           bus_type : resp['body']['type'],
           bus_fee : parseInt(resp['body']['bus_fee']),
           trip_fee : parseInt(resp['body']['trip_fee']),
-          quantitiy : data['quantitiy'],
+          quantity : data['quantity'],
         }
         this.router.navigate(['/check_ticket'], {
           state : {
@@ -145,8 +145,25 @@ export class UserHomeComponent implements OnInit {
       if(resp['body']['status']) {
         this.acc_order_list[user_index]['status'] = 'BRD';
         infoWindow.close();
+        let ticket: Ticket = {
+          schedule_id : this.acc_order_list[user_index]['schedule_id'],
+          track : this.acc_order_list[user_index]['track_name'],
+          track_id : this.acc_order_list[user_index]['track_id'],
+          trip : this.acc_order_list[user_index]['trip_name'],
+          trip_id : this.acc_order_list[user_index]['trip_id'],
+          bus_type : this.acc_order_list[user_index]['type_name'],
+          bus_fee : parseInt(this.acc_order_list[user_index]['bus_fee']),
+          trip_fee : parseInt(this.acc_order_list[user_index]['trip_fee']),
+          quantity : parseInt(this.acc_order_list[user_index]['quantity']),
+        }
+        this.router.navigate(['/check_ticket'], {
+          state : {
+            checkTicket : ticket
+          }
+        });
       } else {
-        console.log('FAILED');
+        this.error = true;
+        this.error_message = 'Error Order Not Valid';
       }
     });
   }
