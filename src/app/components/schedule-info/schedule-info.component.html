@@ -1,0 +1,33 @@
+<!-- Contact -->
+<div id="contact" class="form">|
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2>SCHEDULE INFO</h2>
+				<div class="hr-div"></div>
+			</div>
+		</div>
+		<div *ngIf="schedule_id">
+            <div class="ticket-section">
+                <div class="label-section"><u style="color: #ffffff;"><h5>Schedule</h5></u></div>
+                <h6>{{ schedule.schedule_start }} s.d. {{ schedule.schedule_end }}</h6>
+            </div>
+            <div class="ticket-section">
+                <div class="label-section"><u style="color: #ffffff;"><h5>Track</h5></u></div>
+                <h6>{{ schedule.track_name }}</h6>
+            </div>
+            <div class="ticket-section">
+                <div class="label-section"><u style="color: #ffffff;"><h5>Driver</h5></u></div>
+                <h6>{{ schedule.driver_name }}</h6>
+            </div>
+            <div class="ticket-section">
+                <div class="label-section"><u style="color: #ffffff;"><h5>Bus Type</h5></u></div>
+                <h6>{{ schedule.type_name }}</h6>
+            </div>
+        </div>
+        <div id="no-schedule" *ngIf="!schedule_id">
+            <p class="warning-message">You Haven't set your schedule</p>
+            <h5><a href="/bus">Please, Set Schedule Here</a></h5>
+        </div>
+	</div>
+</div>

@@ -8,6 +8,7 @@ import { UserCheckTicketComponent } from './components/user-check-ticket/user-ch
 import { UserOrderComponent } from './components/user-order/user-order.component';
 import { JadwalComponent } from './components/jadwal/jadwal.component';
 import { ReportComponent } from './components/report/report.component';
+import { ScheduleInfoComponent } from './components/schedule-info/schedule-info.component';
 
 const routes: Routes = [
 	{
@@ -41,6 +42,10 @@ const routes: Routes = [
 	{
 		path: 'sales_report',
 		component: ReportComponent
+	},
+	{
+		path: 'schedule_info',
+		component: ScheduleInfoComponent
 	}
 ];
 
