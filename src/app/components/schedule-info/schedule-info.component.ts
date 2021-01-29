@@ -30,10 +30,8 @@ export class ScheduleInfoComponent implements OnInit {
   getScheduleDataApi(url) {
     var params = '?schedule_id=' + this.schedule_id;
     this.http.get(url+params).toPromise().then(resp => {
-      console.log(resp);
       if (resp['status']) {
         this.schedule = resp['data'];
-        console.log(this.schedule);
       }
     });
   }
