@@ -12,8 +12,24 @@ export class ReportComponent implements OnInit {
   report_data : any;
   sales_data = [];
   total_income = 0;
+  user_id = '';
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  getCookie(name: string) {
+    let ca: Array<string> = document.cookie.split(';');
+    let caLen: number = ca.length;
+    let cookieName = `${name}=`;
+    let c: string;
+
+    for (let i: number = 0; i < caLen; i += 1) {
+      c = ca[i].replace(/^\s+/g, '');
+      if (c.indexOf(cookieName) == 0) {
+        return c.substring(cookieName.length, c.length);
+      }
+    }
+    return '';
+  }
 
   buildData() {
   	let _sales = [];
@@ -56,7 +72,7 @@ export class ReportComponent implements OnInit {
   }
 
   getReportDataAllTime() {
-    this.http.get("https://trifea.000webhostapp.com/api/get_report").toPromise().then(resp => {
+    this.http.get("https://trifea.000webhostapp.com/api/get_report?user_id=" + this.user_id).toPromise().then(resp => {
         this.report_data = resp;
         this.buildData();
       }
@@ -64,7 +80,7 @@ export class ReportComponent implements OnInit {
   }
 
   getReportDataToday() {
-    this.http.get("https://trifea.000webhostapp.com/api/get_report_today").toPromise().then(resp => {
+    this.http.get("https://trifea.000webhostapp.com/api/get_report_today?user_id=" + this.user_id).toPromise().then(resp => {
         this.report_data = resp;
         this.buildData();
       }
@@ -72,7 +88,8 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  	this.getReportDataToday();
+    this.getReportDataToday();
+    this.user_id = this.getCookie('user_id');
   }
 
 }

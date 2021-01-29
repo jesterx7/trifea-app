@@ -15,7 +15,8 @@
         		<div class="col-md-4">
         			<b style="color: #ffffff;">End Date</b><br>
         			<input class="input-report" type="date" name="end_date" ngModel required>
-        		</div>
+				</div>
+				<input type="text" ngModel="{{ user_id }}" name="user_id" required hidden>
         		<div class="col-md-4">
         			<br>
         			<button type="submit" class="search-btn" style="display: inline-block;"><i class="fa fa-search"></i></button>
