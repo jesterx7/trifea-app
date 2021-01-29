@@ -19,6 +19,7 @@ import { UserCheckTicketComponent } from './components/user-check-ticket/user-ch
 import { UserOrderComponent } from './components/user-order/user-order.component';
 import { JadwalComponent } from './components/jadwal/jadwal.component';
 import { ReportComponent } from './components/report/report.component';
+import { ScheduleInfoComponent } from './components/schedule-info/schedule-info.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ReportComponent } from './components/report/report.component';
     UserCheckTicketComponent,
     UserOrderComponent,
     JadwalComponent,
-    ReportComponent
+    ReportComponent,
+    ScheduleInfoComponent
   ],
   imports: [
     BrowserModule,

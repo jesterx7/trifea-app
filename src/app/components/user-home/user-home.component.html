@@ -11,25 +11,11 @@
                         <form #ticketForm="ngForm" (ngSubmit)="onCheckOutSubmit(ticketForm.value)">
                         	<h2>Bus App</h2>
                             <p [hidden]="!error" style="color: red;">{{ error_message }}</p>
-                        	<div class="select-box">
-                        		<label for="select-box-1" class="label select-box"><span class="label-desc">Choose your origin</span></label>
-                        		<select id="select-box-1" class="select" ngModel name="origin" (change)="onOriginSelected($event.target.value)">
-                        			<option>Choose your origin</option>
-                        			<option *ngFor="let city of city_list" [value]="city['city_id']">{{ city['city_name'] }}</option>
-                        		</select>
-                        	</div>
-                        	<div class="select-box">
-                        		<label for="select-box-2" class="label select-box"><span class="label-desc">Choose your destination</span></label>
-                        		<select id="select-box-2" class="select" ngModel name="destination" (change)="onDestinationSelected($event.target.value)">
-                        			<option>Choose your destination</option>
-                        			<option *ngFor="let city of city_list" [value]="city['city_id']">{{ city['city_name'] }}</option>
-                        		</select>
-                        	</div>
-                            <div class="select-box" [hidden]="!destination_selected">
-                                <label for="select-box-3" class="label select-box"><span class="label-desc">Choose Track</span></label>
-                                <select id="select-box-3" class="select" ngModel name="track">
-                                    <option>Choose Track</option>
-                                    <option *ngFor="let track of track_list" [value]="track['track_id']">{{ track['track_name'] }}</option>
+                            <div class="select-box">
+                                <label for="select-box-1" class="label select-box"><span class="label-desc">Choose Trip</span></label>
+                                <select id="select-box-1" class="select" ngModel name="trip">
+                                    <option>Choose Trip</option>
+                                    <option *ngFor="let trip of trip_list" [value]="trip['trip_id']">{{ trip['city_name'] }}</option>
                                 </select>
                             </div>
                             <input type="number" [ngModel]="user_id" name="user_id"  hidden="true">
@@ -38,6 +24,9 @@
                             </div>
                             <div class="select-box">
                                 <input class="label select-box" type="text" [(ngModel)]="user_id" name="user_id" placeholder="User ID" type="hidden" required>
+                            </div>
+                            <div class="select-box">
+                                <input class="label select-box" type="text" [(ngModel)]="track_id" name="track" type="hidden" required>
                             </div>
                         	<div class="form-group">
                         		<button id="search-location" type="submit" class="form-control-submit-button">Check Out</button>
@@ -49,7 +38,7 @@
                     <div class="image-container" [hidden]="check">
                         <div class="text-container">
                             <div class="text-container">
-                                <form #checkOrder="ngForm" (ngSubmit)="onCheckSubmit(checkOrder.value)">
+                                <form #setScheduleForm="ngForm" (ngSubmit)="onSetSchedule(setScheduleForm.value)">
                                     <h2>Check User Order</h2>
                                     <div class="select-box">
                                         <label for="select-box-5" class="label select-box"><span class="label-desc">Choose your Schedule</span></label>
@@ -59,7 +48,13 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <button id="search-location" type="submit" class="form-control-submit-button">CHECK</button>
+                                        <button id="search-location" type="submit" class="form-control-submit-button">SET</button>
+                                    </div>
+                                </form>
+                                <form #mapCheckForm="ngForm" (ngSubmit)="onCheckSubmit(mapCheckForm.value)">
+                                    <input type="text" placeholder="Phone Number" ngModel="{{ schedule_id }}" name="schedule_id" required hidden>
+                                    <div class="form-group">
+                                        <button id="search-location" type="submit" class="form-control-submit-button">CHECK ORDER</button>
                                     </div>
                                 </form>
                             </div>

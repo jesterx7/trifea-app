@@ -29,9 +29,13 @@ export class UserHomeComponent implements OnInit {
   acc_user_marker_url = "./assets/icons/acc-user-marker.png";
   pend_user_marker_url = "./assets/icons/user-marker.png";
 
+  trip_list: any;
+  schedule: any;
+
   check = false;
   searchUserSuccess = false;
-  schedule_id = 0;
+  schedule_id = '';
+  track_id = 0;
   current_lat = 0;
   current_lng = 0;
   zoom = 10;
@@ -44,15 +48,10 @@ export class UserHomeComponent implements OnInit {
       }, 2000);
     }
   }
-  city_list: any;
-  track_list: any;
+
   error = false;
   error_message = '';
-  origin_selected = false;
-  destination_selected = false;
-  origin_city_id = 0;
-  destination_city_id = 0;
-  track_id = 0;
+  trip_id = 0;
   ticketChecked = false;
   user_id = '';
 
@@ -71,6 +70,14 @@ export class UserHomeComponent implements OnInit {
     return '';
   }
 
+  setCookie(name: string, value: string, expireDays: number, path: string = '') {
+  	let d:Date = new Date();
+  	d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
+  	const expires = `expires=${d.toUTCString()}`;
+  	const cpath = path ? `; path=${path}` : '';
+  	document.cookie = `${name}=${value}; ${expires}${cpath}; SameSite=Lax`;
+  }
+
   onCheckOutSubmit(data) {
     const httpOptions: { headers; observe; } = {
       headers: new HttpHeaders({
@@ -85,7 +92,7 @@ export class UserHomeComponent implements OnInit {
         let ticket: Ticket = {
           schedule_id : resp['body']['schedule_id'],
           track : resp['body']['track'],
-          track_id : data['track'],
+          track_id : this.schedule['track_id'],
           trip : resp['body']['trip'],
           trip_id : resp['body']['trip_id'],
           bus_type : resp['body']['type'],
@@ -181,7 +188,6 @@ export class UserHomeComponent implements OnInit {
 
     this.http.post('https://trifea.000webhostapp.com/api/decline_user_order', params, httpOptions).subscribe(
     (resp) => {
-      console.log(resp);
       if(resp['body']['status']) {
         this.pend_order_list[user_index]['status'] = 'DEC';
         infoWindow.close();
@@ -191,55 +197,18 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
-  checkOriginCity(value) {
-    if (isNaN(value)) {
-      this.origin_selected = false;
-    } else {
-      this.origin_selected = true;
-    }
-  }
-
-  getCityDataApi(url) {
-  	this.http.get(url).toPromise().then(resp => {
-      this.city_list = resp;
-  	});
-  }
-
-  getTrackDataApi(url) {
-    var params = '?origin=' + this.origin_city_id.toString() + '&destination=' + this.destination_city_id.toString();
+  getTripDataApi(url) {
+    var params = '?track=' + this.schedule['track_id'];
     this.http.get(url+params).toPromise().then(resp => {
       if (resp['status']) {
-        this.track_list = resp['data'];
-        this.destination_selected = true;
-        this.error = false;
-      } else {
-        this.destination_selected = false;
-        this.error = true;
-        this.error_message = 'Track Not Found';
+        this.trip_list = resp['data'];
       }
     });
   }
 
-  /*getDestinationDataApi(origin_id) {
-    var params = '?origin_id=' + origin_id.toString() + '&condectur_id=' + this.user_id;
-    this.http.get('https://trifea.000webhostapp.com/api/get_destination'+params).toPromise().then(resp => {
-      console.log(resp);
-    });
-  }*/
-
-  onOriginSelected(data) {
-    this.origin_city_id = data;
-    this.origin_selected = true;
-  }
-
-  onDestinationSelected(data) {
-    this.destination_city_id = data;
-    this.getTrackDataApi('https://trifea.000webhostapp.com/api/get_track');
-  }
-
   getCurrentLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: Position) => {
+      navigator.geolocation.getCurrentPosition((position: any) => {
         if (position) {
           this.current_lat = position.coords.latitude;
           this.current_lng = position.coords.longitude;
@@ -273,6 +242,14 @@ export class UserHomeComponent implements OnInit {
         this.error_message = 'No Track Found';
       }
     });
+  }
+
+  onSetSchedule(data) {
+    this.setCookie('selected_schedule', data['schedule'], 1, 'USER_COOKIE');
+    this.schedule_id = data['schedule'];
+    if (this.schedule_id) {
+      this.error = false;
+    }
   }
 
   getUserLoc(user_list, status) {
@@ -387,9 +364,31 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
+  getDetailSchedule(url) {
+    var params = '?schedule_id=' + this.schedule_id;
+    this.http.get(url+params).toPromise().then(resp => {
+      if (resp['status']) {
+        this.schedule = resp['data'];
+        this.track_id = resp['data']['track_id'];
+        this.getTripDataApi('https://trifea.000webhostapp.com/api/get_trip');
+      }
+    });    
+  }
+
+  checkSchedule() {
+    this.schedule_id = this.getCookie('selected_schedule');
+    if (this.schedule_id) {
+      this.getDetailSchedule('https://trifea.000webhostapp.com/api/get_schedule_data');
+      this.error = false;
+    } else {
+      this.error = true;
+      this.error_message = 'Please Set Schedule First';
+    }
+  }
+
   ngOnInit(): void {
     this.user_id = this.getCookie('user_id');
-  	this.getCityDataApi('https://trifea.000webhostapp.com/api/get_city_list');
+    this.checkSchedule();
     this.getScheduleDataApi('https://trifea.000webhostapp.com/api/get_conductor_schedule');
   }
 }
