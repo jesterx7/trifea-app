@@ -39,7 +39,7 @@
                         <div class="text-container">
                             <div class="text-container">
                                 <form #setScheduleForm="ngForm" (ngSubmit)="onSetSchedule(setScheduleForm.value)">
-                                    <h2>Check User Order</h2>
+                                    <h2>Check User Request</h2>
                                     <div class="select-box">
                                         <label for="select-box-5" class="label select-box"><span class="label-desc">Choose your Schedule</span></label>
                                         <select id="select-box-5" class="select" ngModel name="schedule">
@@ -54,7 +54,7 @@
                                 <form #mapCheckForm="ngForm" (ngSubmit)="onCheckSubmit(mapCheckForm.value)">
                                     <input type="text" placeholder="Phone Number" ngModel="{{ schedule_id }}" name="schedule_id" required hidden>
                                     <div class="form-group">
-                                        <button id="search-location" type="submit" class="form-control-submit-button">CHECK ORDER</button>
+                                        <button id="search-location" type="submit" class="form-control-submit-button">CHECK REQUEST</button>
                                     </div>
                                 </form>
                             </div>
@@ -63,22 +63,22 @@
                     <div class="image-container" [hidden]="!check">
                         <agm-map id="user-map" [zoom]="zoom" [latitude]="current_lat" [longitude]="current_lng" (mapReady)="mapReady($event)">
                             <div *ngFor="let loc of pend_user_loc; let i = index; trackBy : identify">
-                                <agm-marker *ngIf="pend_order_list[i]['status'] == 'PEND'" class="driver-marker" [latitude]="loc['loc_latitude']" [longitude]="loc['loc_longitude']" [iconUrl]="pend_user_marker_url">
+                                <agm-marker *ngIf="pend_request_list[i]['status'] == 'PEND'" class="driver-marker" [latitude]="loc['loc_latitude']" [longitude]="loc['loc_longitude']" [iconUrl]="pend_user_marker_url">
                                     <agm-info-window #infoWindow>
-                                        <div>{{ pend_order_list[i]['user_name'] }}</div>
-                                        <div>{{ pend_order_list[i]['user_number'] }}</div>
-                                        <div>Quantity : {{ pend_order_list[i]['quantity'] }}</div>
-                                        <button class="btn btn-danger btn-user" (click)="onDeclineOrder(pend_order_list[i]['order_id'], i, infoWindow)">Decline</button>
-                                        <button class="btn btn-success btn-user" style="display: inline; margin-left: 5px;" (click)="onConfirmOrder(pend_order_list[i]['order_id'], i, infoWindow)">Accept</button>
+                                        <div>{{ pend_request_list[i]['user_name'] }}</div>
+                                        <div>{{ pend_request_list[i]['user_number'] }}</div>
+                                        <div>Quantity : {{ pend_request_list[i]['quantity'] }}</div>
+                                        <button class="btn btn-danger btn-user" (click)="onDeclineRequest(pend_request_list[i]['request_id'], i, infoWindow)">Decline</button>
+                                        <button class="btn btn-success btn-user" style="display: inline; margin-left: 5px;" (click)="onConfirmRequest(pend_request_list[i]['request_id'], i, infoWindow)">Accept</button>
                                     </agm-info-window>
                                 </agm-marker>
                             </div>
                             <div *ngFor="let loc of acc_user_loc; let i = index; trackBy : identify">
-                                <agm-marker *ngIf="acc_order_list[i]['status']==='ACC'" class="driver-marker" [latitude]="loc['loc_latitude']" [longitude]="loc['loc_longitude']" [iconUrl]="acc_user_marker_url">
+                                <agm-marker *ngIf="acc_request_list[i]['status']==='ACC'" class="driver-marker" [latitude]="loc['loc_latitude']" [longitude]="loc['loc_longitude']" [iconUrl]="acc_user_marker_url">
                                     <agm-info-window #infoWindow>
-                                        <div>{{ acc_order_list[i]['user_name'] }}</div>
-                                        <div>{{ acc_order_list[i]['user_number'] }}</div>
-                                        <button class="btn btn-primary btn-user" (click)="onBoardUser(acc_order_list[i]['order_id'], i, infoWindow)">Pick Up</button>
+                                        <div>{{ acc_request_list[i]['user_name'] }}</div>
+                                        <div>{{ acc_request_list[i]['user_number'] }}</div>
+                                        <button class="btn btn-primary btn-user" (click)="onBoardUser(acc_request_list[i]['request_id'], i, infoWindow)">Pick Up</button>
                                     </agm-info-window>
                                 </agm-marker>
                             </div>

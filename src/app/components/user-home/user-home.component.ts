@@ -14,8 +14,8 @@ import { timer } from 'rxjs';
 export class UserHomeComponent implements OnInit {
   alertVisible = false;
   schedule_list = [];
-  acc_order_list = [];
-  pend_order_list = [];
+  acc_request_list = [];
+  pend_request_list = [];
   acc_user_list = [];
   pend_user_list = [];
   acc_user_loc = [];
@@ -23,7 +23,7 @@ export class UserHomeComponent implements OnInit {
 
   protected map: any;
   loc_timer = timer(500, 2000);
-  order_timer = timer(10000, 20000);
+  request_timer = timer(10000, 20000);
   trackByIdentitiy = (index: number, item: any) => item;
 
   acc_user_marker_url = "./assets/icons/acc-user-marker.png";
@@ -112,9 +112,9 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
-  onConfirmOrder(order_id, user_index, infoWindow) {
+  onConfirmRequest(request_id, user_index, infoWindow) {
     let params = new HttpParams();
-    params = params.append('order_id', order_id);
+    params = params.append('request_id', request_id);
 
     const httpOptions: { headers; observe; } = {
       headers: new HttpHeaders({
@@ -123,12 +123,12 @@ export class UserHomeComponent implements OnInit {
       observe: 'response'
     };
 
-    this.http.post('https://trifea.000webhostapp.com/api/update_user_order', params, httpOptions).subscribe(
+    this.http.post('https://trifea.000webhostapp.com/api/update_user_request', params, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
-        this.acc_order_list.push(this.pend_order_list[user_index]);
+        this.acc_request_list.push(this.pend_request_list[user_index]);
         this.acc_user_list.push(this.pend_user_list[user_index]);
-        this.pend_order_list[user_index]['status'] = 'ACC';
+        this.pend_request_list[user_index]['status'] = 'ACC';
         infoWindow.close();
       } else {
         console.log('FAILED');
@@ -136,9 +136,9 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
-  onBoardUser(order_id, user_index, infoWindow) {
+  onBoardUser(request_id, user_index, infoWindow) {
     let params = new HttpParams();
-    params = params.append('order_id', order_id);
+    params = params.append('request_id', request_id);
 
     const httpOptions: { headers; observe; } = {
       headers: new HttpHeaders({
@@ -147,21 +147,21 @@ export class UserHomeComponent implements OnInit {
       observe: 'response'
     };
 
-    this.http.post('https://trifea.000webhostapp.com/api/pickup_user_order', params, httpOptions).subscribe(
+    this.http.post('https://trifea.000webhostapp.com/api/pickup_user_request', params, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
-        this.acc_order_list[user_index]['status'] = 'BRD';
+        this.acc_request_list[user_index]['status'] = 'BRD';
         infoWindow.close();
         let ticket: Ticket = {
-          schedule_id : this.acc_order_list[user_index]['schedule_id'],
-          track : this.acc_order_list[user_index]['track_name'],
-          track_id : this.acc_order_list[user_index]['track_id'],
-          trip : this.acc_order_list[user_index]['trip_name'],
-          trip_id : this.acc_order_list[user_index]['trip_id'],
-          bus_type : this.acc_order_list[user_index]['type_name'],
-          bus_fee : parseInt(this.acc_order_list[user_index]['bus_fee']),
-          trip_fee : parseInt(this.acc_order_list[user_index]['trip_fee']),
-          quantity : parseInt(this.acc_order_list[user_index]['quantity']),
+          schedule_id : this.acc_request_list[user_index]['schedule_id'],
+          track : this.acc_request_list[user_index]['track_name'],
+          track_id : this.acc_request_list[user_index]['track_id'],
+          trip : this.acc_request_list[user_index]['trip_name'],
+          trip_id : this.acc_request_list[user_index]['trip_id'],
+          bus_type : this.acc_request_list[user_index]['type_name'],
+          bus_fee : parseInt(this.acc_request_list[user_index]['bus_fee']),
+          trip_fee : parseInt(this.acc_request_list[user_index]['trip_fee']),
+          quantity : parseInt(this.acc_request_list[user_index]['quantity']),
         }
         this.router.navigate(['/check_ticket'], {
           state : {
@@ -170,14 +170,14 @@ export class UserHomeComponent implements OnInit {
         });
       } else {
         this.error = true;
-        this.error_message = 'Error Order Not Valid';
+        this.error_message = 'Error request Not Valid';
       }
     });
   }
 
-  onDeclineOrder(order_id, user_index, infoWindow) {
+  onDeclineRequest(request_id, user_index, infoWindow) {
     let params = new HttpParams();
-    params = params.append('order_id', order_id);
+    params = params.append('request_id', request_id);
 
     const httpOptions: { headers; observe; } = {
       headers: new HttpHeaders({
@@ -186,10 +186,10 @@ export class UserHomeComponent implements OnInit {
       observe: 'response'
     };
 
-    this.http.post('https://trifea.000webhostapp.com/api/decline_user_order', params, httpOptions).subscribe(
+    this.http.post('https://trifea.000webhostapp.com/api/decline_user_request', params, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
-        this.pend_order_list[user_index]['status'] = 'DEC';
+        this.pend_request_list[user_index]['status'] = 'DEC';
         infoWindow.close();
       } else {
         console.log('FAILED');
@@ -226,16 +226,16 @@ export class UserHomeComponent implements OnInit {
       observe: 'response'
     };
 
-    this.http.post('https://trifea.000webhostapp.com/api/get_user_order', data, httpOptions).subscribe(
+    this.http.post('https://trifea.000webhostapp.com/api/get_user_request', data, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
         this.schedule_id = data['schedule'];
-        this.acc_order_list = resp['body']['acc_order'];
-        this.pend_order_list = resp['body']['pend_order'];
+        this.acc_request_list = resp['body']['acc_request'];
+        this.pend_request_list = resp['body']['pend_request'];
         this.pend_user_list = resp['body']['pend_user_list'];
         this.acc_user_list = resp['body']['acc_user_list'];
         this.loc_timer.subscribe(val => this.intervalFunction());
-        this.order_timer.subscribe(val => this.checkNewOrder());
+        this.request_timer.subscribe(val => this.checkNewRequest());
         this.check = true;
       } else {
         this.error = true;
@@ -280,7 +280,7 @@ export class UserHomeComponent implements OnInit {
     if (this.acc_user_list.length > 0) this.getUserLoc(this.acc_user_list, 'acc');
   }
 
-  checkNewOrder() {
+  checkNewRequest() {
     let params = new HttpParams();
     params = params.append('schedule_id', this.schedule_id.toString());
 
@@ -291,24 +291,24 @@ export class UserHomeComponent implements OnInit {
       observe: 'response'
     };
 
-    this.http.post('https://trifea.000webhostapp.com/api/get_user_order', params, httpOptions).subscribe(
+    this.http.post('https://trifea.000webhostapp.com/api/get_user_request', params, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
-        if (this.acc_order_list.length != resp['body']['acc_order'].length) {
-          var order_list = [];
+        if (this.acc_request_list.length != resp['body']['acc_request'].length) {
+          var request_list = [];
           var new_user_list = [];
 
           for (let i = 0; i < this.acc_user_list.length; i++) {
             new_user_list.push(this.acc_user_list[i]);
           }
 
-          for (let i = 0; i < this.acc_order_list.length; i++) {
-            order_list.push(this.acc_order_list[i]['order_id']);
+          for (let i = 0; i < this.acc_request_list.length; i++) {
+            request_list.push(this.acc_request_list[i]['request_id']);
           }
 
-          for (let i = 0; i < resp['body']['acc_order'].length; i++) {
-            if (!order_list.includes(resp['body']['acc_order'][i]['order_id'])) {
-              this.acc_order_list.push(resp['body']['acc_order'][i]);
+          for (let i = 0; i < resp['body']['acc_request'].length; i++) {
+            if (!request_list.includes(resp['body']['acc_request'][i]['request_id'])) {
+              this.acc_request_list.push(resp['body']['acc_request'][i]);
             }
           }
 
@@ -318,21 +318,21 @@ export class UserHomeComponent implements OnInit {
             }
           }
         }
-        if (this.pend_order_list.length != resp['body']['pend_order'].length) {
-          var order_list = [];
+        if (this.pend_request_list.length != resp['body']['pend_request'].length) {
+          var request_list = [];
           var new_user_list = [];
 
           for (let i = 0; i < this.pend_user_list.length; i++) {
             new_user_list.push(this.pend_user_list[i]);
           }
 
-          for (let i = 0; i < this.pend_order_list.length; i++) {
-            order_list.push(this.pend_order_list[i]['order_id']);
+          for (let i = 0; i < this.pend_request_list.length; i++) {
+            request_list.push(this.pend_request_list[i]['request_id']);
           }
 
-          for (let i = 0; i < resp['body']['pend_order'].length; i++) {
-            if (!order_list.includes(resp['body']['pend_order'][i]['order_id'])) {
-              this.pend_order_list.push(resp['body']['pend_order'][i]);
+          for (let i = 0; i < resp['body']['pend_request'].length; i++) {
+            if (!request_list.includes(resp['body']['pend_request'][i]['request_id'])) {
+              this.pend_request_list.push(resp['body']['pend_request'][i]);
             }
           }
 

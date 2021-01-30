@@ -49,7 +49,7 @@ export class UserHeaderComponent implements OnInit {
     if (this.getCookie('occupation_id') == '3') {
       this.router.navigate(['bus']);
     } else {
-      this.router.navigate(['order']);
+      this.router.navigate(['request']);
     }
   }
 

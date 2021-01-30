@@ -13,8 +13,8 @@ export class UserOrderComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) { }
 
   schedule_list = [];
-  acc_order_list = [];
-  pend_order_list = [];
+  acc_request_list = [];
+  pend_request_list = [];
   acc_user_list = [];
   pend_user_list = [];
   acc_user_loc = [];
@@ -22,7 +22,7 @@ export class UserOrderComponent implements OnInit {
 
   protected map: any;
   loc_timer = timer(500, 2000);
-  order_timer = timer(10000, 20000);
+  request_timer = timer(10000, 20000);
   trackByIdentitiy = (index: number, item: any) => item;
 
   bus_marker_url = "./assets/icons/bus-marker.png";
@@ -61,7 +61,7 @@ export class UserOrderComponent implements OnInit {
 
   getCurrentLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: Position) => {
+      navigator.geolocation.getCurrentPosition((position: any) => {
         if (position) {
           this.current_lat = position.coords.latitude;
           this.current_lng = position.coords.longitude;
@@ -72,7 +72,7 @@ export class UserOrderComponent implements OnInit {
 
   watchCurrentPosition() {
     navigator.geolocation.watchPosition(
-      (position: Position) => {
+      (position: any) => {
         this.current_lat = position.coords.latitude;
         this.current_lng = position.coords.longitude;
         this.updateDriverLoc();
@@ -115,25 +115,25 @@ export class UserOrderComponent implements OnInit {
       observe: 'response'
     };
 
-    this.http.post('https://trifea.000webhostapp.com/api/get_user_order', data, httpOptions).subscribe(
+    this.http.post('https://trifea.000webhostapp.com/api/get_user_request', data, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
       	this.schedule_id = data['schedule'];
-      	this.acc_order_list = resp['body']['acc_order'];
-      	this.pend_order_list = resp['body']['pend_order'];
+      	this.acc_request_list = resp['body']['acc_request'];
+      	this.pend_request_list = resp['body']['pend_request'];
       	this.getCurrentLocation();
       	this.setDriverLocation();
       	this.watchCurrentPosition();
       	this.pend_user_list = resp['body']['pend_user_list'];
       	this.acc_user_list = resp['body']['acc_user_list'];
       	this.loc_timer.subscribe(val => this.intervalFunction());
-      	this.order_timer.subscribe(val => this.checkNewOrder());
+      	this.request_timer.subscribe(val => this.checkNewRequest());
       	this.check = true;
       }
     });
   }
 
-  checkNewOrder() {
+  checkNewRequest() {
   	let params = new HttpParams();
     params = params.append('schedule_id', this.schedule_id.toString());
 
@@ -144,24 +144,24 @@ export class UserOrderComponent implements OnInit {
       observe: 'response'
     };
 
-    this.http.post('https://trifea.000webhostapp.com/api/get_user_order', params, httpOptions).subscribe(
+    this.http.post('https://trifea.000webhostapp.com/api/get_user_request', params, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
-      	if (this.acc_order_list.length != resp['body']['acc_order'].length) {
-      		var order_list = [];
+      	if (this.acc_request_list.length != resp['body']['acc_request'].length) {
+      		var request_list = [];
       		var new_user_list = [];
 
       		for (let i = 0; i < this.acc_user_list.length; i++) {
       			new_user_list.push(this.acc_user_list[i]);
       		}
 
-      		for (let i = 0; i < this.acc_order_list.length; i++) {
-      			order_list.push(this.acc_order_list[i]['order_id']);
+      		for (let i = 0; i < this.acc_request_list.length; i++) {
+      			request_list.push(this.acc_request_list[i]['request_id']);
       		}
 
-      		for (let i = 0; i < resp['body']['acc_order'].length; i++) {
-      			if (!order_list.includes(resp['body']['acc_order'][i]['order_id'])) {
-      				this.acc_order_list.push(resp['body']['acc_order'][i]);
+      		for (let i = 0; i < resp['body']['acc_request'].length; i++) {
+      			if (!request_list.includes(resp['body']['acc_request'][i]['request_id'])) {
+      				this.acc_request_list.push(resp['body']['acc_request'][i]);
       			}
       		}
 
@@ -171,21 +171,21 @@ export class UserOrderComponent implements OnInit {
       			}
       		}
       	}
-      	if (this.pend_order_list.length != resp['body']['pend_order'].length) {
-      		var order_list = [];
+      	if (this.pend_request_list.length != resp['body']['pend_request'].length) {
+      		var request_list = [];
       		var new_user_list = [];
 
       		for (let i = 0; i < this.pend_user_list.length; i++) {
       			new_user_list.push(this.pend_user_list[i]);
       		}
 
-      		for (let i = 0; i < this.pend_order_list.length; i++) {
-      			order_list.push(this.pend_order_list[i]['order_id']);
+      		for (let i = 0; i < this.pend_request_list.length; i++) {
+      			request_list.push(this.pend_request_list[i]['request_id']);
       		}
 
-      		for (let i = 0; i < resp['body']['pend_order'].length; i++) {
-      			if (!order_list.includes(resp['body']['pend_order'][i]['order_id'])) {
-      				this.pend_order_list.push(resp['body']['pend_order'][i]);
+      		for (let i = 0; i < resp['body']['pend_request'].length; i++) {
+      			if (!request_list.includes(resp['body']['pend_request'][i]['request_id'])) {
+      				this.pend_request_list.push(resp['body']['pend_request'][i]);
       			}
       		}
 
@@ -196,30 +196,6 @@ export class UserOrderComponent implements OnInit {
       		}
       	}
       	this.intervalFunction();
-      }
-    });
-  }
-
-  onConfirmOrder(order_id, user_index, infoWindow) {
-  	let params = new HttpParams();
-    params = params.append('order_id', order_id);
-
-    const httpOptions: { headers; observe; } = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      }),
-      observe: 'response'
-    };
-
-    this.http.post('https://trifea.000webhostapp.com/api/update_user_order', params, httpOptions).subscribe(
-    (resp) => {
-      if(resp['body']['status']) {
-      	this.acc_order_list.push(this.pend_order_list[user_index]);
-      	this.acc_user_list.push(this.pend_user_list[user_index]);
-      	this.pend_order_list[user_index]['status'] = 'ACC';
-      	infoWindow.close();
-      } else {
-      	console.log('FAILED');
       }
     });
   }
