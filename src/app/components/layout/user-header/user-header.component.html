@@ -15,7 +15,7 @@
     <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Leno</a> -->
 
     <!-- Welcome Message -->
-    <h4>Welcome, {{ name }}</h4>
+    <h4 class="welcome-text">Welcome, {{ name }}</h4>
     
     <!-- Mobile Menu Toggle Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,18 +37,8 @@
             <li class="nav-item">
                 <a class="nav-link" routerLink="profile">PROFILE</a>
             </li>
-
-            <!-- Dropdown Menu -->          
             <li class="nav-item">
-                <a class="nav-link page-scroll" href="#preview">HISTORY</a>
-            </li>
-            <!-- end of dropdown menu -->
-
-            <li class="nav-item">
-                <a class="nav-link page-scroll" href="#contact">HELP</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link page-scroll" (click)="onLogoutSubmit()">SIGN OUT</a>
+                <a class="nav-link" (click)="onLogoutSubmit()">SIGN OUT</a>
             </li>
         </ul>
     </div>
