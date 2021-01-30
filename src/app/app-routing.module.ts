@@ -32,7 +32,7 @@ const routes: Routes = [
 		component: UserCheckTicketComponent
 	},
 	{
-		path: 'order',
+		path: 'request',
 		component: UserOrderComponent
 	},
 	{
