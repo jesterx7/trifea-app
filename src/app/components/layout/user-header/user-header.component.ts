@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class UserHeaderComponent implements OnInit {
   name:string = '';
+  isCondectur = true;
   constructor(private router:Router) { }
 
   setCookie(name: string, value: string, expireDays: number, path: string = '') {
@@ -47,7 +48,8 @@ export class UserHeaderComponent implements OnInit {
   ngOnInit(): void {
   	this.name = this.getCookie('name');
     if (this.getCookie('occupation_id') == '3') {
-      this.router.navigate(['bus']);
+	  this.router.navigate(['bus']);
+	  this.isCondectur = true;
     } else {
       this.router.navigate(['request']);
     }
