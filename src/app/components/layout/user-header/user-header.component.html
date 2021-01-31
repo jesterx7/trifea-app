@@ -30,7 +30,7 @@
                 <a class="nav-link page-scroll" href="#header">HOME <span class="sr-only">(current)</span></a>
             </li>
 
-            <li class="nav-item" [hidden]="isCondectur">
+            <li class="nav-item" [hidden]="!isCondectur">
                 <a class="nav-link" routerLink="sales_report">REPORT</a>
             </li>
 
@@ -38,7 +38,7 @@
                 <a class="nav-link" routerLink="profile">PROFILE</a>
             </li>
 
-            <li class="nav-item" [hidden]="isCondectur">
+            <li class="nav-item" [hidden]="!isCondectur">
                 <a class="nav-link" routerLink="schedule_info">SCHEDULE INFO</a>
             </li>
             
