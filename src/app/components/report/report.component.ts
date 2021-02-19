@@ -44,9 +44,9 @@ export class ReportComponent implements OnInit {
 	  		new_data.push(0);
 	  		this.report_data.forEach((childData, childIndex)=> {
 	  			if (data.track_id == childData.track_id) {
-	  				new_data[1] += 1;
-	  				new_data[2] += childData.trip_fee + childData.type_fee;
-            this.total_income += childData.trip_fee + childData.type_fee;
+	  				new_data[1] += childData.quantity;
+	  				new_data[2] += childData.quantity * (childData.trip_fee + childData.type_fee);
+            this.total_income += childData.quantity * (childData.trip_fee + childData.type_fee);
 	  			}
 	  		});
 	  		this.sales_data.push(new_data);
