@@ -12,7 +12,7 @@
                             <h2>Bus App</h2>
                             <div class="select-box">
                                 <label for="select-box-1" class="label select-box"><span class="label-desc">Choose your Schedule</span></label>
-                                <select id="select-box-1" class="select" ngModel name="schedule">
+                                <select id="select-box-1" class="select" ngModel name="schedule_id">
                                     <option>Choose your Schedule</option>
                                     <option *ngFor="let schedule of schedule_list" [value]="schedule['schedule_id']">{{ schedule['track_name'] }} : {{ schedule['schedule_start'] }} s.d {{ schedule['schedule_end'] }}<hr></option>
                                 </select>

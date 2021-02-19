@@ -16,14 +16,9 @@
 			<h6>{{ ticket.quantity }}</h6>
 		</div>
 		<div class="ticket-section">
-			<div class="label-section"><u style="color: #ffffff;"><h5>Bus Type</h5></u></div>
-			<h6 class="have-price">{{ ticket.bus_type }}</h6>
-			<h6 class="price-ticket">{{ ticket.quantity.toString() }} x {{ ticket.bus_fee | currency:"Rp " }}</h6>
-		</div>
-		<div class="ticket-section">
-			<div class="label-section"><u style="color: #ffffff;"><h5>Trip</h5></u></div>
+			<div class="label-section"><u style="color: #ffffff;"><h5>Fee</h5></u></div>
 			<h6 class="have-price">{{ ticket.trip }}</h6>
-			<h6 class="price-ticket">{{ ticket.quantity.toString() }} x {{ ticket.trip_fee | currency:"Rp " }}</h6>
+			<h6 class="price-ticket">{{ ticket.quantity.toString() }} x {{ ticket.trip_fee + ticket.bus_fee | currency:"Rp " }}</h6>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">

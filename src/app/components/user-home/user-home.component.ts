@@ -225,7 +225,7 @@ export class UserHomeComponent implements OnInit {
       }),
       observe: 'response'
     };
-
+    
     this.http.post('https://trifea.000webhostapp.com/api/get_user_request', data, httpOptions).subscribe(
     (resp) => {
       if(resp['body']['status']) {
@@ -248,6 +248,7 @@ export class UserHomeComponent implements OnInit {
     this.setCookie('selected_schedule', data['schedule'], 1, 'USER_COOKIE');
     this.schedule_id = data['schedule'];
     if (this.schedule_id) {
+      this.getDetailSchedule('https://trifea.000webhostapp.com/api/get_schedule_data');
       this.error = false;
     }
   }
