@@ -13,7 +13,6 @@ export class UserCheckTicketComponent implements OnInit {
   ticket: Ticket;
   constructor(private router: Router, private http: HttpClient, private loc: Location) { 
   	this.ticket = this.router.getCurrentNavigation().extras.state.checkTicket;
-    console.log(this.ticket);
   }
 
   backClicked() {

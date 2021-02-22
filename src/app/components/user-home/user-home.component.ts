@@ -96,7 +96,6 @@ export class UserHomeComponent implements OnInit {
           trip : resp['body']['trip'],
           trip_id : resp['body']['trip_id'],
           bus_type : resp['body']['type'],
-          bus_fee : parseInt(resp['body']['bus_fee']),
           trip_fee : parseInt(resp['body']['trip_fee']),
           quantity : data['quantity'],
         }
@@ -159,7 +158,6 @@ export class UserHomeComponent implements OnInit {
           trip : this.acc_request_list[user_index]['trip_name'],
           trip_id : this.acc_request_list[user_index]['trip_id'],
           bus_type : this.acc_request_list[user_index]['type_name'],
-          bus_fee : parseInt(this.acc_request_list[user_index]['bus_fee']),
           trip_fee : parseInt(this.acc_request_list[user_index]['trip_fee']),
           quantity : parseInt(this.acc_request_list[user_index]['quantity']),
         }

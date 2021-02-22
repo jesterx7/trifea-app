@@ -5,7 +5,6 @@ export interface Ticket {
     trip : string;
     trip_id : string;
     bus_type : string;
-    bus_fee : number;
     trip_fee : number;
     quantity : number;
 }
