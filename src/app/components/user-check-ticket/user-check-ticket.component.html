@@ -27,7 +27,7 @@
 		</div>
 		<div class="ticket-section">
 			<h6 class="have-price">Total</h6>
-			<h6 class="price-ticket">{{ (ticket.quantity * (ticket.bus_fee + ticket.trip_fee)) | currency:"Rp " }}</h6>
+			<h6 class="price-ticket">{{ (ticket.quantity * ticket.trip_fee) | currency:"Rp " }}</h6>
 		</div>
 		<div class="btn-ticket">
 			<button class="btn btn-danger" style="display: inline;" (click)="backClicked()">Cancel</button>
